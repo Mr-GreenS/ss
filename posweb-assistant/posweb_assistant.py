@@ -1,32 +1,34 @@
 import time
+import telebot
+i_pass= 0
+SPASS= "Aimee"
 
-print("\n\n=============AI-M101101 FOREVER=============\n\n")
+bot = telebot.TeleBot("6065910250:AAEJ0P0eFCP3rmr5S6WLw0452LuJxDgKlt4", parse_mode=None) # You can set parse_mode by default. HTML or MARKDOWN
+@bot.message_handler(commands=['start'])
+def send_welcome(message):
+	bot.send_message(message.chat.id, "\n\n=======AI-M101101 FOREVER=======\n\n")
+	bot.send_message(message.chat.id, "\n\nВведите пароль\n\n")
+
+@bot.message_handler(commands=['help'])
+def send_help(message):
+	bot.send_message(message.chat.id, "\n\nЗапрос = имя файла/текст\n\n")
+
+@bot.message_handler(content_types=['text'])
+def send_echo(message):
+	#bot.reply_to(message, message.text)
+	global i_pass
+	if message.text == SPASS :
+		bot.send_message(message.chat.id, "Привет")
+		i_pass = 1
+	elif i_pass == 1:
+		bot.send_message(message.chat.id, message.text)
+	else:
+		bot.send_message(message.chat.id, "Запрос не распознан")
+bot.polling(none_stop = True)
+
+
 time.sleep(2.5)
 
-ss=input("Пожалуйста представьтесь:")
-time.sleep(2.5)
-ss_age = int (input("Укажите ваш возраст:"))
-time.sleep(2.5)
 
-if ss_age > 4: ss_age_s = str(ss_age) + " лет"
-else: ss_age_s = str(ss_age) + " года"
-
-print("\nДобро пожаловать " + ss +"!" + "\nИнтерфейс бота настроен на ваш возраст (т.е. " + ss_age_s + " !)")
-time.sleep(2.5)
-print("Мое имя AI-M101101, сокращенное AIMEE, или просто Эми")
-time.sleep(2.5)
-while True:
-    promt_message = input("\nВаш вопрос (для выхода просто \'Эми стоп\'):")
-    if len(promt_message) == 0 or promt_message == "Эми стоп": break
-    print( "Обрабатываю запрос \'" + promt_message + "\' минуточку....");
-    time.sleep(60)
-    print( "Верю ответ найдется " + ss + " еще минуточку....");
-    time.sleep(60)
-    print( "К сожалению, ни локальная база знаний, ни удаленная не доступны мне сейчас," + ss + ", если хотите, введите новый запрос");
-    time.sleep(2.5)
-    
-
-print("Стоп, нажмите любую клавишу")
-input()
 
 
