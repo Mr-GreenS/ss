@@ -1,5 +1,7 @@
 import time
 import telebot
+import os
+
 i_pass= 0
 SPASS= "Aimee"
 
@@ -18,10 +20,26 @@ def send_echo(message):
 	#bot.reply_to(message, message.text)
 	global i_pass
 	if message.text == SPASS :
-		bot.send_message(message.chat.id, "Привет")
+		bot.send_message(message.chat.id, "Привет. Исходная:" + os.getcwd())
 		i_pass = 1
 	elif i_pass == 1:
-		bot.send_message(message.chat.id, message.text)
+		if message.text == "DIR":
+			print("Запрос DIR:", os.listdir());				
+			bot.send_message(message.chat.id,os.listdir())
+			# распечатать все файлы и папки рекурсивно
+			#for dirpath, dirnames, filenames in os.walk("."):
+				# перебрать каталоги
+				#for dirname in dirnames:
+				#	bot.send_message(message.chat.id,"Каталог:" + os.path.join(dirpath, dirname))
+				# перебрать файлы
+				#for filename in filenames:
+				#	bot.send_message(message.chat.id,"Файл:" + os.path.join(dirpath, filename))
+		else:
+			os.mkdir(message.text)
+			bot.send_message(message.chat.id, "Создана директория:" + message.text)
+			time.sleep(20)
+			bot.stop_bot()
+
 	else:
 		bot.send_message(message.chat.id, "Запрос не распознан")
 bot.polling(none_stop = True)
