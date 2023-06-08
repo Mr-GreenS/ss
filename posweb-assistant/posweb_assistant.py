@@ -139,8 +139,33 @@ def to_file(message, command):
      print(command)
      return "File not found"
 
+def findJira(command, num):
+    try:
+        n=int(command)
+        print('find by num ' + str(n))
+    except:
+        print('find by str '+ command)
+
+    list =[]
+    return "Tickets not found"
+
+def to_jira(message, command):
+    print("JIRA")
+    s=s1=''
+    if command[2] != "":
+        list=findJira(command[2], 200)
+        for s in list:
+           s1=s1 + '\n' + s
+           if s1 != '':
+               return s1
+           else:
+               return "Tickets not found"
+    else:
+     print(command)
+     return "Ticket not found"
+
 def to_aimee(message, command):
-	print("Эми")
+	print("Эми- OpenAI bot")
 	print("Эта часть не дописана")
 	return "Эми в отпуске"
 
@@ -150,9 +175,11 @@ def to_aimee(message, command):
 def send_echo(message):
 	#bot.reply_to(message, message.text)
 	global i_pass
-	scomm=str(message.text);
-	command=scomm.partition(' ');
-	print(command);
+	scomm=str(message.text)
+	command=scomm.partition(' ')
+	print(command)
+	print(scomm)
+
 	if message.text == SPASS :
 		os.chdir("D:\\AIMEE")
 		bot.send_message(message.chat.id, "Привет. Эми активирована.\nТекущий путь: " + os.getcwd())
@@ -161,13 +188,24 @@ def send_echo(message):
 		if command[0] == "DIR":
 			scomm = to_dir(message,command)
 		elif command[0] == "FILE":
+			print("FILE SECTION")
 			scomm = to_file(message,command)
+		elif command[0] == "JIRA":
+			scomm = to_jira(message,command)
 		elif command[0] == "Эми":
 			scomm = to_aimee(message,command)
 		if scomm != '' and scomm != None:
 			bot.send_message(message.chat.id,scomm)
 	else:
 		bot.send_message(message.chat.id, "Запрос не распознан")
+
+print("Bot polling")
+if True:
+    print("Aimee listen")
+    if True:
+        print("Aime listen")
+        if True:
+            print("Ami listen")
 bot.polling(none_stop = True)
 
 
