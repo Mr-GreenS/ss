@@ -24,3 +24,31 @@ while True:
 
 print("Сеанс окончен, спасибо")
 
+@bot.message_handler(content_types=['text'])
+def send_echo(message):
+	#bot.reply_to(message, message.text)
+	global i_pass
+	scomm=str(message.text)
+	command=scomm.partition(' ')
+	print(command)
+	print(scomm)
+
+	if message.text == SPASS :
+		os.chdir("D:\\AIMEE")
+		bot.send_message(message.chat.id, "Привет. Эми активирована.\nТекущий путь: " + os.getcwd())
+		i_pass = 1
+	elif i_pass == 1:
+		if command[0] == "DIR":
+			scomm = to_dir(message,command)
+		elif command[0] == "FILE":
+			print("FILE SECTION")
+			print(scomm)
+			scomm = to_file(message,command)
+		elif command[0] == "JIRA":
+			scomm = to_jira(message,command)
+		elif command[0] == "Эми":
+			scomm = to_aimee(message,command)
+		if scomm != '' and scomm != None:
+			bot.send_message(message.chat.id,scomm)
+	else:
+		bot.send_message(message.chat.id, "Запрос не распознан")
